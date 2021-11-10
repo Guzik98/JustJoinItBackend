@@ -23,13 +23,11 @@ export class OffersService {
     return  this.offerModel.find().exec();
   }
 
-  async  createOffer (createOffersDto : CreateOffersDto, employmentTypeDto : EmploymentTypeDto, skillTypeDto : SkillTypeDto, salaryTypeDto : SalaryTypeDto) : Promise<Offer> {
+  async  createOffer (createOffersDto : CreateOffersDto) : Promise<Offer> {
     const {  title, street, city, address_text, marker_icon, workplace_type, company_name,
       company_url, company_size, experience_level, latitude, longitude, published_at, remote_interview,
-      id, company_logo_url } = createOffersDto
-     const { type } = employmentTypeDto
-    const { name, level } = skillTypeDto
-    const { from, to , currency } = salaryTypeDto
+      id, company_logo_url, skills, employment_types } = createOffersDto
+
 
 
     return this.offersRepository.createOffers( {
@@ -49,19 +47,8 @@ export class OffersService {
       remote_interview,
       id,
       company_logo_url,
-      employment_types : [{
-        type : type,
-        salary : {
-          to,
-          from,
-          currency,
-        }
-      }],
-      skills : [
-        {
-        name,
-        level,
-      }]
+      skills,
+      employment_types
     }
   )}
 }

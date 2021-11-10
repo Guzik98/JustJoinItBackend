@@ -23,7 +23,7 @@ export class CreateOffersDto  {
   currency: number;
   employment_types : EmploymentTypeDto[]
   company_logo_url : string
-  skill: SkillTypeDto[]
+  skills: SkillTypeDto[]
 }
 
 export class EmploymentTypeDto {

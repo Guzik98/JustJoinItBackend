@@ -2,6 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Offer, OfferDocument } from "./schema/offer.schema";
 import { Model } from "mongoose";
+import { EmploymentTypeDto, SkillTypeDto } from "./dto/create-offers.dto";
 
 @Injectable()
 export class OffersRepository {
@@ -26,20 +27,8 @@ export class OffersRepository {
     experience_level: string;
     company_size: string;
     longitude: string
-    employment_types:[{
-      type: string;
-      salary : {
-        from: number;
-        to: number;
-        currency: string;
-      }
-    }]
-    skills : [
-        {
-          name: string;
-          level: number;
-        },
-      ]
+    employment_types: EmploymentTypeDto[];
+    skills: SkillTypeDto[];
   })
     : Promise<Offer> {
 
