@@ -11,12 +11,13 @@ export class OffersController {
 
   @Post()
     createPost(@Body() createOffersDto: CreateOffersDto): Promise<Offer>{
-      this.logger.verbose('nastąpiła próba stworzenia offerty')
+      this.logger.verbose('User is trying to create new offer')
       return this.offersService.createOffer(createOffersDto);
   }
 
   @Get()
   async findAll(): Promise<Offer[]> {
+    this.logger.verbose('User is trying to get all offers')
     return this.offersService.findAll();
   }
 }

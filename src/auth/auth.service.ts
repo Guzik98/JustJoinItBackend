@@ -8,8 +8,8 @@ import {
 import * as bcrypt from 'bcrypt';
 import { JwtService } from "@nestjs/jwt";
 import { AuthCredentialsDto } from "./dto/auth-credenrials.dto";
-import { Role } from "./role.enum";
-import { JwtPayload } from './jwt-payload.interface';
+import { Role } from "./enum/role.enum";
+import { JwtPayload } from './jwt/jwt-payload.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schema/user.schema';
 import { Model } from 'mongoose';
