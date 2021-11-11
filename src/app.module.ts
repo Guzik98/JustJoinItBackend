@@ -4,8 +4,6 @@ import { AuthModule } from './auth/auth.module';
 import { MongooseModule } from "@nestjs/mongoose";
 import { MONGO_CONNECTION } from './app.properties';
 import { OffersModule } from './offers/offers.module';
-import { SkillModule } from './skill/skill.module';
-
 
 @Module({
   imports: [
@@ -23,7 +21,6 @@ import { SkillModule } from './skill/skill.module';
       synchronize: true,
     }),
     OffersModule,
-    SkillModule,
   ],
 })
 export class AppModule {}

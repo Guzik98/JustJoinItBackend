@@ -28,8 +28,9 @@ export class AuthService {
     if ( user && (await bcrypt.compare(password, user.password))){
       this.logger.verbose('uzytkownik zalogowany');
       const payload : JwtPayload = { username, role };
+      console.log(payload)
       const accessToken : string = this.jwtService.sign(payload);
-      role = user.role
+      // role = user.role
       return  { accessToken, role , username };
     } else {
       this.logger.verbose('uzytkownik nieznaleziony');

@@ -1,7 +1,3 @@
-import { ValidateNested } from "class-validator";
-import { Type } from "class-transformer";
-import { User } from "../../auth/user.entity";
-
 export class CreateOffersDto  {
   title: string;
   street: string;
@@ -29,15 +25,14 @@ export class CreateOffersDto  {
 export class EmploymentTypeDto {
   type: string
   salary: SalaryTypeDto
-
 }
-
 
 export class SalaryTypeDto {
   from: number
   to: number
   currency: string
 }
+
 export class SkillTypeDto {
   name: string;
   level: number;

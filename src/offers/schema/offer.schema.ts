@@ -1,12 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { ObjectID } from 'bson'
-import { Types } from "mongoose";
-
-export type OfferDocument = Offer & Document
-
 
 @Schema()
-export  class Salary  {
+export class Salary {
   @Prop()
   from: number
   @Prop()
@@ -15,11 +10,8 @@ export  class Salary  {
   currency: string
 }
 
-export const SalarySchema = SchemaFactory.createForClass(Salary);
-
-
 @Schema()
-export  class Skill {
+export class Skill {
   @Prop()
   name: string;
   @Prop()
@@ -38,9 +30,10 @@ export class Employment_types {
 
 export const Employment_typesSchema = SchemaFactory.createForClass(Employment_types);
 
+export type OfferDocument = Offer & Document
 
 @Schema()
-export  class Offer {
+export class Offer {
   @Prop()
   title: string;
   @Prop()
@@ -72,10 +65,10 @@ export  class Offer {
   @Prop()
   id: string;
   @Prop({ type: [Employment_typesSchema], default: []})
-  employment_types : Employment_types[]
+  employment_types: Employment_types[]
   @Prop()
-  company_logo_url : string
-  @Prop({ type: [SkillSchema],  default: []})
+  company_logo_url: string
+  @Prop({ type: [SkillSchema], default: []})
   skills: Skill[]
 }
 
