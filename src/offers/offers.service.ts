@@ -1,11 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  CreateOffersDto,
-  EmploymentTypeDto,
-
-  SalaryTypeDto,
-  SkillTypeDto
-} from "./dto/create-offers.dto";
+import { CreateOffersDto } from "./dto/create-offers.dto";
 import { Offer, OfferDocument } from "./schema/offer.schema";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
