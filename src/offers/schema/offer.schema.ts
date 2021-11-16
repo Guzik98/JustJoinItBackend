@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
-@Schema()
+@Schema({_id: false})
 export class Salary {
   @Prop()
   from: number
@@ -10,7 +10,7 @@ export class Salary {
   currency: string
 }
 
-@Schema()
+@Schema({_id: false})
 export class Skill {
   @Prop()
   name: string;
@@ -20,7 +20,7 @@ export class Skill {
 
 export const SkillSchema = SchemaFactory.createForClass(Skill);
 
-@Schema()
+@Schema({_id: false})
 export class Employment_types {
   @Prop()
   type: string
