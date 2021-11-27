@@ -1,4 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { User } from '../../auth/schema/user.schema';
+import * as mongoose from 'mongoose';
+import { ObjectId } from 'mongoose';
 
 @Schema({_id: false})
 export class Salary {
@@ -12,7 +15,7 @@ export class Salary {
 
 @Schema({_id: false})
 export class Skill {
-  @Prop()
+  @Prop( )
   name: string;
   @Prop()
   level: number;
@@ -32,8 +35,9 @@ export const Employment_typesSchema = SchemaFactory.createForClass(Employment_ty
 
 export type OfferDocument = Offer & Document
 
-@Schema()
+@Schema({ timestamps: true })
 export class Offer {
+  _id: mongoose.Schema.Types.ObjectId
   @Prop()
   title: string;
   @Prop()
@@ -70,6 +74,7 @@ export class Offer {
   company_logo_url: string
   @Prop({ type: [SkillSchema], default: []})
   skills: Skill[]
+  user: ({ type: mongoose.Schema.Types.ObjectId, ref: 'User'})
 }
 
 export const OfferSchema = SchemaFactory.createForClass(Offer);

@@ -6,6 +6,7 @@ import { PassportModule } from "@nestjs/passport"
 import { JwtStrategy } from "./jwt/jwt.strategy";
 import { User, UserSchema } from './schema/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthRepository } from './auth.repository';
 
 @Module({
   imports: [
@@ -16,10 +17,10 @@ import { MongooseModule } from '@nestjs/mongoose';
         expiresIn: 3600,
       },
     }),
-    MongooseModule.forFeature([{name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema } ]),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, AuthRepository ],
   controllers: [AuthController],
-  exports: [JwtStrategy, PassportModule],
+  exports: [JwtStrategy, PassportModule, AuthRepository ],
 })
 export class AuthModule {}

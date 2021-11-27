@@ -4,6 +4,7 @@ import { OffersService } from './offers.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Offer, OfferSchema } from "./schema/offer.schema";
 import { AuthModule } from '../auth/auth.module';
+import { OffersRepository } from './offersRepository';
 
 @Module({
   imports: [
@@ -12,6 +13,6 @@ import { AuthModule } from '../auth/auth.module';
   ],
 
   controllers: [OffersController],
-  providers: [OffersService]
+  providers: [OffersService, OffersRepository]
 })
 export class OffersModule {}

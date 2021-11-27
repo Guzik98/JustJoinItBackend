@@ -1,6 +1,7 @@
 import { Body, Controller, Logger, Post } from '@nestjs/common';
 import { AuthCredentialsDto } from './dto/auth-credenrials.dto';
 import { AuthService } from './auth.service';
+import { User } from './schema/user.schema';
 
 @Controller('/auth')
 export class AuthController {
@@ -9,7 +10,7 @@ export class AuthController {
   constructor( private authService: AuthService) {}
 
   @Post('/signup')
-  signUp(@Body() authCredentialsDto: AuthCredentialsDto ): Promise<void> {
+  signUp(@Body() authCredentialsDto: AuthCredentialsDto ): Promise<User> {
       this.logger.verbose( `User ${authCredentialsDto.username} is trying to create a account`)
       return this.authService.signUp(authCredentialsDto);
   }
@@ -21,3 +22,5 @@ export class AuthController {
   }
 
 }
+
+

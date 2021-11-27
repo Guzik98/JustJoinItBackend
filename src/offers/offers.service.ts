@@ -1,27 +1,55 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CreateOffersDto } from './dto/create-offers.dto';
-import { Offer, OfferDocument } from './schema/offer.schema';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Offer } from './schema/offer.schema';
+import { ObjectId, Schema } from 'mongoose';
 import { User } from '../auth/schema/user.schema';
+import { AuthRepository } from 'src/auth/auth.repository';
+import { OffersRepository } from './offersRepository';
 
 @Injectable()
-
 export class OffersService {
-  constructor(@InjectModel(Offer.name) private offerModel: Model<OfferDocument>) {}
-
   private logger = new Logger('OffersService');
+
+  constructor(
+    private authRepository: AuthRepository,
+    private offerRepository: OffersRepository
+  ) {}
 
   async findAll(): Promise<Offer[]> {
     this.logger.verbose('user got all offers');
-    return  this.offerModel.find().exec();
+    return this.offerRepository.findAll();
   }
 
-  async createOffer(createOffersDto: CreateOffersDto, user: User ): Promise<Offer> {
-    const createdOffer = new this.offerModel(createOffersDto, user);
-
-    this.logger.verbose('user created new Offer');
-
-    return createdOffer.save();
+  async findUserAndUpdate(offer: Offer, user: User): Promise<void> {
+    const filter = { username: user.username };
+    const update = { offers: [...user.offers, offer._id] };
+    await this.authRepository.findOneAndUpdate(filter, update);
   }
+
+  async createOffer(createOffersDto: CreateOffersDto, user: User) : Promise<Offer> {
+    this.logger.verbose(`user created new Offer ${user}`);
+    const createdOffer =  this.offerRepository.createOffer(createOffersDto, user)
+    await this.findUserAndUpdate(await createdOffer, user);
+    return createdOffer
+  }
+
+  async getUserOffers(user: User): Promise<Offer[]> {
+    const filter =[]
+    user.offers.map(item => {
+      this.logger.verbose(`${item}`)
+      return filter.push(item);
+    })
+
+    this.logger.verbose(`filter ${filter}`)
+    return this.offerRepository.getUserOffers(filter as unknown as ObjectId)
+  }
+
+  async getOfferById(_id: { type: Schema.Types.ObjectId; ref: 'Offer' }): Promise<Offer>{
+    return this.offerRepository.getOfferById(_id)
+  }
+
+  async  deleteOfferById(_id: { type: Schema.Types.ObjectId; ref: 'Offer' }): Promise<void>{
+     await this.offerRepository.deleteOfferById(_id);
+  }
+
 }
