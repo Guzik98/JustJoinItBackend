@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { User } from '../../auth/schema/user.schema';
 import * as mongoose from 'mongoose';
 import { ObjectId } from 'mongoose';
+import { ExperienceLevelEnum } from '../enums/experience_level.enum';
 
 @Schema({_id: false})
 export class Salary {
@@ -57,7 +58,7 @@ export class Offer {
   @Prop()
   company_size: string
   @Prop()
-  experience_level: string;
+  experience_level: ExperienceLevelEnum;
   @Prop()
   latitude: string;
   @Prop()
@@ -74,7 +75,7 @@ export class Offer {
   company_logo_url: string
   @Prop({ type: [SkillSchema], default: []})
   skills: Skill[]
-  user: ({ type: mongoose.Schema.Types.ObjectId, ref: 'User'})
+  user: ({ type: string, ref: 'User'})
 }
 
 export const OfferSchema = SchemaFactory.createForClass(Offer);

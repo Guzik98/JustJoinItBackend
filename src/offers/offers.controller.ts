@@ -16,8 +16,8 @@ import { Offer } from './schema/offer.schema';
 import { GetUser } from '../auth/get-user.decorator';
 import { User } from '../auth/schema/user.schema';
 import { AuthGuard } from '@nestjs/passport';
-import validator from 'validator';
-import { ObjectId, Schema } from 'mongoose';
+import { Schema } from 'mongoose';
+import { UpdateOfferDto } from './dto/update-offer.dto';
 
 @UseGuards(AuthGuard())
 @Controller('/offers')
@@ -59,10 +59,21 @@ export class OffersController {
 
   @Delete('/your-offers/:_id')
   deleteOfferById(
+    @GetUser() user: User,
     @Param('_id') _id: { type: Schema.Types.ObjectId; ref: 'Offer' },
   ): Promise<void>{
-    return  this.offersService.deleteOfferById(_id)
+    return  this.offersService.deleteOfferById(_id, user)
   }
+
+  @Post('/your-offers/:_id')
+  updateOfferById(
+    @GetUser() user: User,
+    @Param('_id') _id: { type: Schema.Types.ObjectId; ref: 'Offer' },
+    @Body() updateOfferDto: UpdateOfferDto
+  ): Promise<Offer>{
+    return this.offersService.updateOfferById(_id, updateOfferDto, user.username)
+  }
+
 
 
 }

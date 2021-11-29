@@ -11,16 +11,15 @@ export class OffersRepository {
   constructor(
     @InjectModel(Offer.name)
     private offerModel: Model<OfferDocument>
-  ) {
-  }
+  ) {}
 
   async findAll(): Promise<Offer[]> {
     return await this.offerModel.find().exec();
   }
 
-  async createOffer(createOffersDto: CreateOffersDto, user: User): Promise<Offer> {
+  async createOffer(createOffersDto: CreateOffersDto): Promise<Offer> {
     this.logger.verbose(`New offer has been created ${createOffersDto}`);
-    return new this.offerModel(createOffersDto, user).save();
+    return new this.offerModel(createOffersDto).save();
   }
 
   async getUserOffers(filter: ObjectId): Promise<Offer[]>{
@@ -32,8 +31,14 @@ export class OffersRepository {
     return this.offerModel.findById( { "_id": _id }).exec();
   }
 
-  async deleteOfferById(_id: { type: Schema.Types.ObjectId; ref: 'Offer' }): Promise<Offer> {
-    return this.offerModel.remove({ "_id": _id });
+  async deleteOfferById(_id: { type: Schema.Types.ObjectId; ref: "Offer"; }, username: string): Promise<Offer>{
+    return this.offerModel.findByIdAndRemove({ "_id": _id, 'user': username  });
   }
+
+  async updateOfferById(_id: { type: Schema.Types.ObjectId}, username: string, update) : Promise<Offer>{
+    return this.offerModel.findByIdAndUpdate({ "_id": _id, 'user': username }, update,{ returnOriginal: false })
+  }
+
+
 
 }

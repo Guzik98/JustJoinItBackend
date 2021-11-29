@@ -3,8 +3,10 @@ import { CreateOffersDto } from './dto/create-offers.dto';
 import { Offer } from './schema/offer.schema';
 import { ObjectId, Schema } from 'mongoose';
 import { User } from '../auth/schema/user.schema';
-import { AuthRepository } from 'src/auth/auth.repository';
 import { OffersRepository } from './offersRepository';
+import { UpdateOfferDto } from './dto/update-offer.dto';
+import { AuthRepository } from '../auth/auth.repository';
+import * as mongoose from 'mongoose';
 
 @Injectable()
 export class OffersService {
@@ -20,16 +22,26 @@ export class OffersService {
     return this.offerRepository.findAll();
   }
 
-  async findUserAndUpdate(offer: Offer, user: User): Promise<void> {
+  async findUserAndUpdate(offer: Offer, user: User, todo: string): Promise<void> {
     const filter = { username: user.username };
-    const update = { offers: [...user.offers, offer._id] };
+    let update
+
+    if(todo === 'add')
+      update = {
+        offers: [...user.offers, offer._id]
+      }
+
+    if (todo === 'delete')
+      update = { "$pull" : { "offers" :  offer._id } }
+
     await this.authRepository.findOneAndUpdate(filter, update);
   }
 
   async createOffer(createOffersDto: CreateOffersDto, user: User) : Promise<Offer> {
     this.logger.verbose(`user created new Offer ${user}`);
-    const createdOffer =  this.offerRepository.createOffer(createOffersDto, user)
-    await this.findUserAndUpdate(await createdOffer, user);
+    createOffersDto.username = user.username;
+    const createdOffer =  this.offerRepository.createOffer(createOffersDto);
+    await this.findUserAndUpdate(await createdOffer, user, 'add');
     return createdOffer
   }
 
@@ -48,8 +60,22 @@ export class OffersService {
     return this.offerRepository.getOfferById(_id)
   }
 
-  async  deleteOfferById(_id: { type: Schema.Types.ObjectId; ref: 'Offer' }): Promise<void>{
-     await this.offerRepository.deleteOfferById(_id);
+  async deleteOfferById(_id: { type: Schema.Types.ObjectId; ref: 'Offer' }, user: User): Promise<void>{
+    const offer = await this.offerRepository.getOfferById(_id)
+    await  this.findUserAndUpdate(offer, user, 'delete')
+    await this.offerRepository.deleteOfferById(_id, user.username);
+  }
+
+  async updateOfferById(
+    _id: { type: Schema.Types.ObjectId; ref: 'Offer' },
+    updateOfferDto: UpdateOfferDto, username: string) : Promise<Offer>{
+    const update = {
+      workplace_type: updateOfferDto.workplace_type,
+      remote_interview: updateOfferDto.remote_interview,
+      skills: updateOfferDto.skills,
+      employment_types: updateOfferDto.employment_types
+    }
+    return this.offerRepository.updateOfferById(_id, username, update)
   }
 
 }

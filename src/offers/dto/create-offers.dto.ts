@@ -1,6 +1,7 @@
 import { IsNotEmpty, Length } from 'class-validator';
+import { ExperienceLevelEnum } from '../enums/experience_level.enum';
 
-export class CreateOffersDto  {
+export class CreateOffersDto {
   @IsNotEmpty({ message: 'Title is required' })
   title: string;
   // @IsNotEmpty({ message: 'Street is required' })
@@ -20,8 +21,10 @@ export class CreateOffersDto  {
   remote_interview: boolean;
   employment_types : EmploymentTypeDto[]
   company_logo_url : string
+  experience_level: ExperienceLevelEnum
   id:string
   skills: SkillTypeDto[]
+  username: string
 }
 
 export class EmploymentTypeDto {

@@ -19,11 +19,15 @@ export class AuthRepository {
     return await new this.userModel(user).save();
   }
 
-  async findOneAndUpdate(filter: FilterQuery<UserDocument>, update): Promise<UserDocument> {
+  async findOneAndUpdate(filter: FilterQuery<UserDocument>, update: UpdateQuery<UserDocument>): Promise<UserDocument> {
     this.logger.verbose(`User was updated`)
     return this.userModel.findOneAndUpdate(filter, update, { returnOriginal: false });
   }
 
+  async findOneAndUpdateDel(filter: FilterQuery<UserDocument>, update: UpdateQuery<UserDocument>): Promise<UserDocument> {
+    this.logger.verbose(`User was updated`)
+    return this.userModel.findOneAndUpdate(filter, update.$pull, { returnOriginal: false });
+  }
   async findOne(username: string): Promise<User> {
     this.logger.verbose(`${username} is founded`);
     return this.userModel.findOne({username});

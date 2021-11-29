@@ -12,6 +12,7 @@ import { Role } from "./enum/role.enum";
 import { JwtPayload } from './jwt/jwt-payload.interface';
 import { User } from './schema/user.schema';
 import { AuthRepository } from './auth.repository';
+import { Offer } from '../offers/schema/offer.schema';
 
 @Injectable()
 export class AuthService  {
@@ -62,6 +63,5 @@ export class AuthService  {
       throw new UnauthorizedException('Please check your login and password')
     }
   }
-
 
 }
