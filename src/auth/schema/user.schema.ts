@@ -1,5 +1,4 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Role } from '../enum/role.enum';
 import { Offer } from '../../offers/schema/offer.schema';
 import * as mongoose from 'mongoose';
 
@@ -12,7 +11,7 @@ export class User {
   @Prop()
   password: string;
   @Prop()
-  role: Role;
+  role: string;
   @Prop()
   offers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Offer' }]
 }

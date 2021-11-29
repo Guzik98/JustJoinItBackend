@@ -1,5 +1,5 @@
-export enum ExperienceLevelEnum {
-  junior = "junior",
-  mid = "mid",
-  senior = "senior",
+export enum ExperienceLevel {
+  JUNIOR = 'junior',
+  MID = 'mid',
+  SENIOR = 'senior'
 }

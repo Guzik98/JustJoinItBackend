@@ -32,7 +32,7 @@ export class OffersController {
     @Body() createOffersDto: CreateOffersDto,
     @GetUser() user: User,
   ): Promise<Offer>{
-    this.logger.verbose(`User ${user} creating new task. Data: ${JSON.stringify(createOffersDto)} `)
+    this.logger.verbose(`User ${user.username} is creating new task.`)
     return this.offersService.createOffer(createOffersDto, user);
   }
 
@@ -73,7 +73,4 @@ export class OffersController {
   ): Promise<Offer>{
     return this.offersService.updateOfferById(_id, updateOfferDto, user.username)
   }
-
-
-
 }

@@ -6,32 +6,22 @@ import { Role } from './enum/role.enum';
 
 @Injectable()
 export class AuthRepository {
-  private logger = new Logger('AuthRepository');
 
   constructor(
     @InjectModel(User.name)
     public userModel: Model<UserDocument>
-  ) {
-  }
+  ) {}
 
   async create(user: { password: any; role: Role; username: string }): Promise<User> {
-    this.logger.verbose(`Account was created`);
     return await new this.userModel(user).save();
   }
 
   async findOneAndUpdate(filter: FilterQuery<UserDocument>, update: UpdateQuery<UserDocument>): Promise<UserDocument> {
-    this.logger.verbose(`User was updated`)
     return this.userModel.findOneAndUpdate(filter, update, { returnOriginal: false });
   }
 
-  async findOneAndUpdateDel(filter: FilterQuery<UserDocument>, update: UpdateQuery<UserDocument>): Promise<UserDocument> {
-    this.logger.verbose(`User was updated`)
-    return this.userModel.findOneAndUpdate(filter, update.$pull, { returnOriginal: false });
-  }
   async findOne(username: string): Promise<User> {
-    this.logger.verbose(`${username} is founded`);
-    return this.userModel.findOne({username});
+      return this.userModel.findOne({username});
   }
-
 
 }

@@ -1,7 +1,6 @@
-import { IsEnum, IsString, MaxLength, MinLength } from 'class-validator';
-import { Role } from '../enum/role.enum';
+import { IsString, MaxLength, MinLength } from 'class-validator';
 
-export class AuthCredentialsDto {
+export class LoginCredentialsDto {
   @IsString()
   @MinLength(4, { message: 'Username need to have at least 4 characters'})
   @MaxLength(20, { message: 'Username is too long'})
@@ -12,6 +11,4 @@ export class AuthCredentialsDto {
   @MaxLength(32, { message: 'Password is too long'})
   password: string
 
-  @IsEnum(Role)
-  role: Role
 }

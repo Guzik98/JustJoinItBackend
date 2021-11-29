@@ -8,11 +8,10 @@ import {
 import * as bcrypt from 'bcrypt';
 import { JwtService } from "@nestjs/jwt";
 import { AuthCredentialsDto } from "./dto/auth-credenrials.dto";
-import { Role } from "./enum/role.enum";
 import { JwtPayload } from './jwt/jwt-payload.interface';
 import { User } from './schema/user.schema';
 import { AuthRepository } from './auth.repository';
-import { Offer } from '../offers/schema/offer.schema';
+import { LoginCredentialsDto } from './dto/login-credentials.dto';
 
 @Injectable()
 export class AuthService  {
@@ -45,17 +44,16 @@ export class AuthService  {
     return this.authRepository.findOne( username )
   }
 
-  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<{ role: Role; accessToken: string; username: string }>{
-    const  { username, password } = authCredentialsDto;
+  async signIn(loginCredentialsDto: LoginCredentialsDto): Promise<{ role: string; accessToken: string; username: string }>{
+    const  { username, password } = loginCredentialsDto;
 
     const user = await this.getUserByUsername(username);
-    const role = user.role
     if ( user && (await bcrypt.compare(password, user.password))){
-
-      const payload: JwtPayload = { username, role };
+      const role = user.role
+      const payload: JwtPayload = { username, role  };
       const accessToken: string = this.jwtService.sign(payload);
 
-      this.logger.verbose('user is logged');
+      this.logger.verbose(`${username} is logged`);
       return  { accessToken, role, username };
 
     } else {
@@ -63,5 +61,4 @@ export class AuthService  {
       throw new UnauthorizedException('Please check your login and password')
     }
   }
-
 }
