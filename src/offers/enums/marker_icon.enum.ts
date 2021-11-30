@@ -6,7 +6,7 @@ export enum MarkerIcon {
   PYTHON = 'python',
   NET = 'net',
   JAVA = 'java',
-  SCALA = 'scala',
+  Scala = 'scala',
   C = 'c',
   Mobile = 'mobile',
   TESTING = 'testing',
