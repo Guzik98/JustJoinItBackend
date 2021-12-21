@@ -37,20 +37,20 @@ export class CreateOffersDto {
   longitude: string;
   published_at: string;
   remote_interview: boolean;
-  // @IsArray()
-  // @ArrayMinSize(1)
-  // @Type(() => SkillTypeDto)
-  // @ValidateNested({ each: true })
+  @IsArray()
+  @ArrayMinSize(1)
+  @Type(() => EmploymentTypeDto)
+  @ValidateNested({ each: true })
   employment_types : EmploymentTypeDto[]
   company_logo_url : string
   @IsEnum(ExperienceLevel)
   experience_level: string
   id:string
-  // @IsDefined()
-  // @IsArray()
-  // @ValidateNested()
-  // @ArrayMinSize(1)
-  // @Type(() => SkillTypeDto)
+  @IsDefined()
+  @IsArray()
+  @ValidateNested()
+  @ArrayMinSize(1)
+  @Type(() => SkillTypeDto)
   skills: SkillTypeDto[]
 }
 
