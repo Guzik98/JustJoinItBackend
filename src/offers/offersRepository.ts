@@ -10,7 +10,7 @@ export class OffersRepository {
     private offerModel: Model<OfferDocument>
   ) {}
 
-  async findAll(): Promise<Offer[]> {
+  async getAllOffers(): Promise<Offer[]> {
     return await this.offerModel.find().exec();
   }
 

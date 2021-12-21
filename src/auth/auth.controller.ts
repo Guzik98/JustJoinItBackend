@@ -11,13 +11,13 @@ export class AuthController {
   constructor( private authService: AuthService) {}
 
   @Post('/signup')
-  signUp(@Body() authCredentialsDto: AuthCredentialsDto ): Promise<User> {
+  create(@Body() authCredentialsDto: AuthCredentialsDto ): Promise<User> {
       this.logger.verbose( `User ${authCredentialsDto.username} is trying to create a account`)
-      return this.authService.signUp(authCredentialsDto);
+      return this.authService.create(authCredentialsDto);
   }
 
   @Post('/signin')
-  signIn(@Body() loginCredentialsDto: LoginCredentialsDto ): Promise<{ accessToken : string}> {
+  signIn(@Body() loginCredentialsDto: LoginCredentialsDto ): Promise<{ accessToken: string }> {
     this.logger.verbose( `User ${loginCredentialsDto.username} is trying to log in`)
     return this.authService.signIn(loginCredentialsDto);
   }

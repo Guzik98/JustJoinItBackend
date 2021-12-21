@@ -1,7 +1,6 @@
 import {
   ConflictException,
   Injectable,
-  InternalServerErrorException,
   Logger,
   UnauthorizedException
 } from '@nestjs/common';
@@ -14,37 +13,34 @@ import { AuthRepository } from './auth.repository';
 import { LoginCredentialsDto } from './dto/login-credentials.dto';
 
 @Injectable()
-export class AuthService  {
+export class AuthService {
   private logger = new Logger('AuthService');
   constructor(
     private jwtService : JwtService,
     private readonly authRepository: AuthRepository
   ) {}
 
-  async signUp(authCredentialsDto: AuthCredentialsDto): Promise<User>{
+  async create(authCredentialsDto: AuthCredentialsDto): Promise<User>{
     const { username, password, role } = authCredentialsDto;
-
     const salt = await bcrypt.genSalt();
     const hashed = await bcrypt.hash(password, salt );
-    const createUser = ({ username, password : hashed, role})
-
-    try {
-      return this.authRepository.create(createUser)
-    } catch ( error ) {
-      if(error.code === '23505') {
-        this.logger.error( `That username is already taken`)
-        throw new ConflictException('username already exists');
-      } else {
-        throw  new InternalServerErrorException();
-      }
-    }
+    const createUser = ({ username: username, password : hashed, role: role})
+    return await this.authRepository.findOne(username)
+      .then((response) => {
+        if( response == null){
+          return this.authRepository.create(createUser)
+        } else {
+          this.logger.error( `That username is already taken`)
+          throw new ConflictException('username already exists');
+        }
+      })
   }
 
   async getUserByUsername(username: string): Promise<User> {
     return this.authRepository.findOne( username )
   }
 
-  async signIn(loginCredentialsDto: LoginCredentialsDto): Promise<{ role: string; accessToken: string; username: string }>{
+  async signIn(loginCredentialsDto: LoginCredentialsDto): Promise<{ accessToken: string }>{
     const  { username, password } = loginCredentialsDto;
 
     const user = await this.getUserByUsername(username);
@@ -54,7 +50,7 @@ export class AuthService  {
       const accessToken: string = this.jwtService.sign(payload);
 
       this.logger.verbose(`${username} is logged`);
-      return  { accessToken, role, username };
+      return  { accessToken };
 
     } else {
       this.logger.verbose('user was not found');

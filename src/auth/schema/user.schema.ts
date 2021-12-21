@@ -13,7 +13,7 @@ export class User {
   @Prop()
   role: string;
   @Prop()
-  offers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Offer' }]
+  offers: [{ type: mongoose.Types.ObjectId, ref: 'Offer' }]
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

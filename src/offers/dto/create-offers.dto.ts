@@ -3,11 +3,9 @@ import {
   ArrayMinSize,
   IsArray,
   IsDefined,
-  IsEnum, IsInt,
+  IsEnum,
   IsNotEmpty, IsNumber, IsOptional,
-  Max, MaxLength,
-  Min, minLength, MinLength,
-  ValidateNested
+  Max, Min, MinLength, ValidateNested
 } from 'class-validator';
 import { MarkerIcon } from '../enums/marker_icon.enum';
 import { WorkplaceType } from '../enums/workplace_type.enum';
@@ -16,29 +14,35 @@ import { EmploymentType } from '../enums/employment_type.enum';
 import { Type } from 'class-transformer';
 
 export class CreateOffersDto {
-  @IsNotEmpty({ message: 'Title is required' })
+  @MinLength(5)
+  @IsNotEmpty({ message: 'title' })
   title: string;
-  @IsNotEmpty({ message: 'Street is required' })
+  @MinLength(5)
+  @IsNotEmpty({ message: 'street' })
   street: string;
-  @IsNotEmpty({ message: 'City is required' })
+  @MinLength(5)
+  @IsNotEmpty({ message: 'city' })
   city: string;
-  @IsNotEmpty({ message: 'Address is required' })
+  @IsNotEmpty({ message: 'address_text' })
   address_text: string;
   @IsEnum(MarkerIcon)
-  @IsNotEmpty({ message: 'Main tech is required' })
+  @IsNotEmpty({ message: 'marker_icon' })
   marker_icon: string;
   @IsEnum(WorkplaceType)
   workplace_type: string;
-  @IsNotEmpty({ message: 'Company name  is required' })
+  @MinLength(5)
+  @IsNotEmpty({ message: 'company_name' })
   company_name: string;
   @IsOptional()
   company_url: string;
-  @IsNotEmpty({ message: 'Company size is required' })
+  @IsNotEmpty({ message: 'company_size' })
   company_size: string
   latitude: string;
   longitude: string;
   published_at: string;
   @IsNotEmpty()
+  country_code: string;
+  @IsNotEmpty({message: 'remote_interview'})
   remote_interview: boolean;
   @IsArray()
   @ArrayMinSize(1)
@@ -73,6 +77,7 @@ export class SalaryTypeDto {
 }
 
 export class EmploymentTypeDto {
+  @IsNotEmpty({message: 'type'})
   @IsEnum(EmploymentType)
   type: string
   @IsOptional()
@@ -82,7 +87,7 @@ export class EmploymentTypeDto {
 }
 
 export class SkillTypeDto {
-  @IsNotEmpty()
+  @IsNotEmpty({message: 'name'})
   name: string;
   @IsNumber()
   @Min(1)

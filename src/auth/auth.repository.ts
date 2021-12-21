@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User, UserDocument } from './schema/user.schema';
 import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -9,7 +9,7 @@ export class AuthRepository {
 
   constructor(
     @InjectModel(User.name)
-    public userModel: Model<UserDocument>
+    private userModel: Model<UserDocument>
   ) {}
 
   async create(user: { password: any; role: Role; username: string }): Promise<User> {

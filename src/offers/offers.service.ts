@@ -4,7 +4,6 @@ import { Offer } from './schema/offer.schema';
 import { ObjectId, Schema } from 'mongoose';
 import { User } from '../auth/schema/user.schema';
 import { OffersRepository } from './offersRepository';
-import { UpdateOfferDto } from './dto/update-offer.dto';
 import { AuthRepository } from '../auth/auth.repository';
 
 @Injectable()
@@ -16,8 +15,8 @@ export class OffersService {
     private offerRepository: OffersRepository
   ) {}
 
-  async findAll(): Promise<Offer[]> {
-    return this.offerRepository.findAll();
+  async getAllOffers(): Promise<Offer[]> {
+    return this.offerRepository.getAllOffers();
   }
 
   async findUserAndUpdate(offer: Offer, user: User, todo: string): Promise<void> {
@@ -65,7 +64,7 @@ export class OffersService {
 
   async updateOfferById(
     _id: { type: Schema.Types.ObjectId; ref: 'Offer' },
-    updateOfferDto: UpdateOfferDto, username: string) : Promise<Offer>{
-    return this.offerRepository.updateOfferById(_id, username, updateOfferDto)
+    createOffersDto: CreateOffersDto, username: string) : Promise<Offer>{
+    return this.offerRepository.updateOfferById(_id, username, createOffersDto)
   }
 }

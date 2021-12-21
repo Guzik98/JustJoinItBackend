@@ -65,6 +65,8 @@ export class Offer {
   @Prop()
   remote_interview: boolean;
   @Prop()
+  country_code: string
+  @Prop()
   id: string;
   @Prop({ type: [Employment_typesSchema], default: []})
   employment_types: Employment_types[]
