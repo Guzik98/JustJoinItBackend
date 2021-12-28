@@ -57,6 +57,8 @@ export class Offer {
   @Prop()
   experience_level: string;
   @Prop()
+  company_logo_url: string
+  @Prop()
   latitude: string;
   @Prop()
   longitude: string;
@@ -70,8 +72,6 @@ export class Offer {
   id: string;
   @Prop({ type: [Employment_typesSchema], default: []})
   employment_types: Employment_types[]
-  @Prop()
-  company_logo_url: string
   @Prop({ type: [SkillSchema], default: []})
   skills: Skill[]
 }

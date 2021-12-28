@@ -1,13 +1,6 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Logger,
-  Param,
-  Post,
-  UseGuards,
-  UsePipes,
+import { Body, Controller, Delete,
+  Get, Logger, Param,
+  Post, UseGuards, UsePipes,
   ValidationPipe
 } from '@nestjs/common';
 import { OffersService } from './offers.service';
@@ -24,16 +17,6 @@ export class OffersController {
 
   constructor(private offersService: OffersService){}
 
-  @Post()
-  @UsePipes(ValidationPipe)
-  createOffer(
-    @Body() createOffersDto: CreateOffersDto,
-    @GetUser() user: User,
-  ): Promise<Offer>{
-    this.logger.verbose(`User ${user.username} is creating new task.`)
-    return this.offersService.createOffer(createOffersDto, user);
-  }
-
   @Get()
   getAllOffers(): Promise<Offer[]> {
     this.logger.verbose('User is trying to get all offers')
@@ -48,6 +31,18 @@ export class OffersController {
     this.logger.verbose(`User ${user} is trying to get offers`)
     return this.offersService.getUserOffers(user);
   }
+
+  @UseGuards(AuthGuard())
+  @Post()
+  @UsePipes(ValidationPipe)
+  createOffer(
+    @Body() createOffersDto: CreateOffersDto,
+    @GetUser() user: User,
+  ): Promise<Offer>{
+    this.logger.verbose(`User ${user.username} is creating new task.`)
+    return this.offersService.createOffer(createOffersDto, user);
+  }
+
 
   @UseGuards(AuthGuard())
   @Get('/your-offers/:_id')

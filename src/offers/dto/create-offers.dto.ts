@@ -37,6 +37,8 @@ export class CreateOffersDto {
   longitude: string;
   published_at: string;
   remote_interview: boolean;
+  @IsNotEmpty({ message: 'Main tech is required' })
+  country_code: string
   @IsArray()
   @ArrayMinSize(1)
   @Type(() => EmploymentTypeDto)

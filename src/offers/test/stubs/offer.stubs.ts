@@ -7,7 +7,7 @@ export const  offerStub = (): Offer => {
     company_name: 'Intro-kop',
     company_size: '12',
     company_url: 'brak',
-    country_code: 'pln',
+    country_code: 'PL',
     employment_types: [{
       type: 'b2b',
       salary: {
