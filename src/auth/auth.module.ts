@@ -12,7 +12,7 @@ import { AuthRepository } from './auth.repository';
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt'}),
     JwtModule.register({
-      secret: 'topSecret51',
+      secret: process.env.SECRETORKEY,
       signOptions: {
         expiresIn: 3600,
       },

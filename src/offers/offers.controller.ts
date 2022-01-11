@@ -13,7 +13,7 @@ import { Schema } from 'mongoose';
 
 @Controller('/offers')
 export class OffersController {
-  private logger = new Logger('OffersController');
+  private logger = new Logger('Offers Controller');
 
   constructor(private offersService: OffersService){}
 

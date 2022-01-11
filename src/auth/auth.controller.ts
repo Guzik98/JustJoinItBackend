@@ -6,7 +6,7 @@ import { LoginCredentialsDto } from './dto/login-credentials.dto';
 
 @Controller('/auth')
 export class AuthController {
-  private logger = new Logger('TaskController');
+  private logger = new Logger('AuthController');
 
   constructor( private authService: AuthService) {}
 

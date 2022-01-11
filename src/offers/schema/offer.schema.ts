@@ -33,7 +33,7 @@ export const Employment_typesSchema = SchemaFactory.createForClass(Employment_ty
 
 export type OfferDocument = Offer & Document
 
-@Schema({ timestamps: true })
+@Schema()
 export class Offer {
   _id: mongoose.Schema.Types.ObjectId
   @Prop()

@@ -16,7 +16,7 @@ import { LoginCredentialsDto } from './dto/login-credentials.dto';
 export class AuthService {
   private logger = new Logger('AuthService');
   constructor(
-    private jwtService : JwtService,
+    private jwtService: JwtService,
     private readonly authRepository: AuthRepository
   ) {}
 
